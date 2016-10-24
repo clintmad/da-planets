@@ -10,17 +10,52 @@ let Moon = DS.defineResource({
   filepath: __dirname + '/../data/moons.db',
   relations: {
     belongsTo: {
-        planet: {
-            localField: 'planet',
-            localKey: 'planetId'
-        }
-    }    
+      planet: {
+        localField: 'planet',
+        localKey: 'planetId',
+        parent: true
+      },
+      star: {
+        localField: 'star',
+        localKey: 'starId'
+      },
+      galaxy: {
+        localField:'galaxy',
+        localKey: 'galaxyId'
+      }
+    }
   }
 })
 
-function create(name, cb) {
+schemator.defineSchema('Moon', {
+    id: {
+    type: 'string',
+    nullable: false
+  },
+  name: {
+    type: 'string',
+    nullable: false
+  }
+})
+
+function create(moon, cb) {
   // Use the Resource Model to create a new moon
-  Moon.create({ id: uuid.v4(), name: name }).then(cb).catch(cb)
+  DS.find('planet', moon.planetId).then(function (planet) {
+    let moonObj = {
+      id: uuid.v4(),
+      name: moon.name,
+      planetId: moon.planetId,
+      starId: planet.starId,
+      galaxyId: planet.galaxyId
+    }
+    let error = schemator.validateSync('Moon', moonObj);
+        if(error){
+            error.stack
+            return cb(error);
+        }
+    Moon.create(moonObj).then(cb).catch(cb)
+
+  }).catch(cb);
 }
 
 function getAll(query, cb) {
