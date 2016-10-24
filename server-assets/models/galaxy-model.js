@@ -1,7 +1,8 @@
 let dataAdapter = require('./data-adapter'),
   uuid = dataAdapter.uuid,
   schemator = dataAdapter.schemator,
-  DS = dataAdapter.DS;
+  DS = dataAdapter.DS,
+  formatQuery = dataAdapter.formatQuery;
 
 let Galaxy = DS.defineResource({
   name: 'galaxy',
@@ -11,6 +12,14 @@ let Galaxy = DS.defineResource({
     hasMany: {
       star: {
         localField: 'stars',
+        foreignKey: 'galaxyId'
+      },
+      planet: {
+        localField: 'planets',
+        foreignKey: 'galaxyId'
+      },
+      moon: {
+        localField: 'moons',
         foreignKey: 'galaxyId'
       }
     }
@@ -30,12 +39,6 @@ function getAll(query, cb) {
 function getById(id, query, cb) {
   // use the Resource Model to get a single galaxy by its id
   Galaxy.find(id, formatQuery(query)).then(cb).catch(cb)
-}
-
-function formatQuery(query){
-  return {
-    with: query.split(',').join(' ').split(' ')
-  }
 }
 
 module.exports = {
