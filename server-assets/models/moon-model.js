@@ -29,7 +29,7 @@ let Moon = DS.defineResource({
         localField: 'creatures',
         foreignKeys: 'moonIds'
       }, {
-        localField: 'KnownCreatures',
+        localField: 'knownCreatures',
         localKeys: 'creatureIds'
       }]
     }
