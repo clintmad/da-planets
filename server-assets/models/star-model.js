@@ -41,7 +41,13 @@ schemator.defineSchema('Star', {
 
 function create(star, cb) { 
   function starColor(temperature){
-  if(temperature >= 7500){
+  if(temperature >= 25000){
+    color = 'blue';
+  }
+  else if(temperature >= 11000 && temperature < 25000){
+    color = 'blue';
+  }
+  else if(temperature >= 7500 && temperature < 11000){
     color = 'blue';
   }
   else if(temperature >= 6000 && temperature < 7500){
