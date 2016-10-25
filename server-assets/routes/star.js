@@ -8,19 +8,19 @@ router.route('/:id?')
   .get(function (req, res, next) {
     if (req.params.id) {
       Star.getById(req.params.id, req.query.include, function (star) {
-        if(star.stack) { return next(star) }
+        if (star.stack) { return next(star) }
         return res.send(star)
       })
     } else {
       Star.getAll(req.query.include, function (stars) {
-        if(stars.stack) { return next(stars) }
+        if (stars.stack) { return next(stars) }
         return res.send(stars);
       });
     }
   })
   .post(function (req, res, next) {
     Star.create(req.body, function (star) {
-      if(star.stack) { return next(star) }
+      if (star.stack) { return next(star) }
       return res.send(star)
     })
   })

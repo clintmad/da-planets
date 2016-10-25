@@ -8,19 +8,19 @@ router.route('/:id?')
   .get(function (req, res, next) {
     if (req.params.id) {
       Planet.getById(req.params.id, req.query.include, function (planet) {
-        if(planet.stack) { return next(planet) }
+        if (planet.stack) { return next(planet) }
         return res.send(planet)
       })
     } else {
       Planet.getAll(req.query.include, function (planets) {
-        if(planets.stack) { return next(planets) }
+        if (planets.stack) { return next(planets) }
         return res.send(planets);
       });
     }
   })
   .post(function (req, res, next) {
     Planet.create(req.body, function (planet) {
-      if(planet.stack) { return next(planet) }
+      if (planet.stack) { return next(planet) }
       return res.send(planet)
     })
   })

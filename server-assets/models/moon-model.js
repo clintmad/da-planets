@@ -20,7 +20,7 @@ let Moon = DS.defineResource({
         localKey: 'starId'
       },
       galaxy: {
-        localField:'galaxy',
+        localField: 'galaxy',
         localKey: 'galaxyId'
       }
     }
@@ -28,11 +28,23 @@ let Moon = DS.defineResource({
 })
 
 schemator.defineSchema('Moon', {
-    id: {
+  id: {
     type: 'string',
     nullable: false
   },
   name: {
+    type: 'string',
+    nullable: false
+  },
+  planetId: {
+    type: 'string',
+    nullable: false
+  },
+  galaxyId: {
+    type: 'string',
+    nullable: false
+  },
+  starId: {
     type: 'string',
     nullable: false
   }
@@ -49,10 +61,9 @@ function create(moon, cb) {
       galaxyId: planet.galaxyId
     }
     let error = schemator.validateSync('Moon', moonObj);
-        if(error){
-            error.stack
-            return cb(error);
-        }
+    if (error) {
+      return cb(error);
+    }
     Moon.create(moonObj).then(cb).catch(cb)
 
   }).catch(cb);

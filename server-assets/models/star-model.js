@@ -39,42 +39,41 @@ schemator.defineSchema('Star', {
   }
 })
 
-function create(star, cb) { 
-  function starColor(temperature){
-  if(temperature >= 25000){
-    color = 'blue';
+function create(star, cb) {
+  function starColor(temperature) {
+    if (temperature >= 25000) {
+      color = 'blue';
+    }
+    else if (temperature >= 11000 && temperature < 25000) {
+      color = 'blue';
+    }
+    else if (temperature >= 7500 && temperature < 11000) {
+      color = 'blue';
+    }
+    else if (temperature >= 6000 && temperature < 7500) {
+      color = 'blue to white';
+    }
+    else if (temperature >= 5000 && temperature < 6000) {
+      color = 'white to yellow';
+    }
+    else if (temperature >= 3500 && temperature < 5000) {
+      color = 'orange to red';
+    }
+    else {
+      color = 'red';
+    }
+    return color
   }
-  else if(temperature >= 11000 && temperature < 25000){
-    color = 'blue';
-  }
-  else if(temperature >= 7500 && temperature < 11000){
-    color = 'blue';
-  }
-  else if(temperature >= 6000 && temperature < 7500){
-    color = 'blue to white';
-  }
-  else if(temperature >= 5000 && temperature < 6000){
-    color = 'white to yellow';
-  }
-  else if(temperature >= 3500 && temperature < 5000){
-    color = 'orange to red';
-  }
-  else{
-    color = 'red';
-  }
-  return color
-} 
-  let starObj = { 
-    id: uuid.v4(), 
-    name: star.name, 
+  let starObj = {
+    id: uuid.v4(),
+    name: star.name,
     temperature: star.temperature + ' K',
     color: starColor(star.temperature),
     galaxyId: star.galaxyId
   }
-  
+
   let error = schemator.validateSync('Star', starObj);
-  if(error){
-    error.stack
+  if (error) {
     return cb(error);
   }
   // Use the Resource Model to create a new star
@@ -99,5 +98,4 @@ module.exports = {
 
 
 
-  
-  
+

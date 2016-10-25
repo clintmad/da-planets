@@ -31,10 +31,18 @@ let Planet = DS.defineResource({
 
 schemator.defineSchema('Planet', {
     id: {
-    type: 'string',
-    nullable: false
-  },
-  name: {
+        type: 'string',
+        nullable: false
+    },
+    name: {
+        type: 'string',
+        nullable: false
+    },
+    starId: {
+        type: 'string',
+        nullable: false
+    },
+  galaxyId: {
     type: 'string',
     nullable: false
   }
@@ -50,8 +58,7 @@ function create(planet, cb) {
             galaxyId: star.galaxyId
         }
         let error = schemator.validateSync('Planet', planetObj);
-        if(error){
-            error.stack
+        if (error) {
             return cb(error);
         }
         Planet.create(planetObj).then(cb).catch(cb)

@@ -8,19 +8,19 @@ router.route('/:id?')
   .get(function (req, res, next) {
     if (req.params.id) {
       Galaxy.getById(req.params.id, req.query.include, function (galaxy) {
-        if(galaxy.stack) { return next(galaxy) }
+        if (galaxy.stack) { return next(galaxy) }
         return res.send(galaxy)
       })
     } else {
       Galaxy.getAll(req.query.include, function (galaxies) {
-        if(galaxies.stack) { return next(galaxies) }
+        if (galaxies.stack) { return next(galaxies) }
         return res.send(galaxies);
       });
     }
   })
   .post(function (req, res, next) {
     Galaxy.create(req.body.name, function (galaxy) {
-      if(galaxy.stack) { return next(galaxy) }
+      if (galaxy.stack) { return next(galaxy) }
       return res.send(galaxy)
     })
   })
