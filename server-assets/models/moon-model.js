@@ -23,6 +23,15 @@ let Moon = DS.defineResource({
         localField: 'galaxy',
         localKey: 'galaxyId'
       }
+    },
+    hasMany: {
+      creature: [{
+        localField: 'creatures',
+        foreignKeys: 'moonIds'
+      }, {
+        localField: 'KnownCreatures',
+        localKeys: 'creatureIds'
+      }]
     }
   }
 })
@@ -51,7 +60,6 @@ schemator.defineSchema('Moon', {
 })
 
 function create(moon, cb) {
-  // Use the Resource Model to create a new moon
   DS.find('planet', moon.planetId).then(function (planet) {
     let moonObj = {
       id: uuid.v4(),
@@ -70,16 +78,12 @@ function create(moon, cb) {
 }
 
 function getAll(query, cb) {
-  //Use the Resource Model to get all Moons
   Moon.findAll({}).then(cb).catch(cb)
 }
 
 function getById(id, query, cb) {
-  // use the Resource Model to get a single moon by its id
   Moon.find(id, formatQuery(query)).then(cb).catch(cb)
 }
-
-
 
 module.exports = {
   create,

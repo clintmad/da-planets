@@ -12,52 +12,69 @@ let Creature = DS.defineResource({
         hasMany: {
             galaxy: [{
                 localField: 'galaxies',
-                localKeys: 'galaxyIds'
-            },{
+                localKeys: 'creatureIds'
+            }, {
                 localField: 'knownGalaxies',
-                foreignKeys: 'creatureIds'
+                foreignKeys: 'galaxyIds'
+            }],
+            star: [{
+                localField: 'stars',
+                localKeys: 'creatureIds'
+            }, {
+                localField: 'knownStars',
+                foreignKeys: 'starIds'
+            }],
+            planet: [{
+                localField: 'planets',
+                localKeys: 'creatureIds'
+            }, {
+                localField: 'knownPlanets',
+                foreignKeys: 'planetIds'
+            }],
+            moon: [{
+                localField: 'moons',
+                localKeys: 'creatureIds'
+            }, {
+                localField: 'knownMoons',
+                foreignKeys: 'moonIds'
             }]
         }
     }
 })
 
 
+
 function create(creature, cb) {
-    // Use the Resource Model to create a new galaxy
     let creatureObj = {
         id: uuid.v4(),
-        name: creature.name,
-        galaxyIds: {}
+        name: creature.name
     }
-
+    
     Creature.create(creatureObj).then(cb).catch(cb)
 }
 
-function inhabitGalaxy(creatureId, galaxyId, cb) {
-    DS.find('galaxy', galaxyId).then(function (galaxy) {
+function inhabitLocation(creatureId, type, id, cb) {
+    DS.find(type, id).then(function (habitat) {
         Creature.find(creatureId).then(function (creature) {
-
-            creature.galaxyIds[galaxyId] = galaxyId;
-            galaxy.creatureIds = galaxy.creatureIds || {};
-            galaxy.creatureIds[creatureId] = creatureId;
+            creature[type + 'Ids'] = creature[type + 'Ids'] || {}
+            creature[type + 'Ids'][id] = id;
+            habitat.creatureIds = habitat.creatureIds || {};
+            habitat.creatureIds[creatureId] = creatureId;
 
             Creature.update(creature.id, creature).then(function () {
-                DS.update('galaxy', galaxyId, galaxy)
+                DS.update(type, id, habitat)
                     .then(cb)
                     .catch(cb)
             }).catch(cb)
-
         }).catch(cb)
     }).catch(cb)
 }
 
 function getAll(query, cb) {
-    //Use the Resource Model to get all Galaxies
     Creature.findAll({}).then(cb).catch(cb)
 }
 
 function getById(id, query, cb) {
-    // use the Resource Model to get a single galaxy by its id
     Creature.find(id, formatQuery(query)).then(cb).catch(cb)
 }
 
@@ -65,6 +82,5 @@ module.exports = {
     create,
     getAll,
     getById,
-    inhabitGalaxy
+    inhabitLocation
 }
-

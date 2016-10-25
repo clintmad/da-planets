@@ -23,7 +23,14 @@ let Star = DS.defineResource({
       moon: {
         localField: 'moons',
         foreignKey: 'starId'
-      }
+      },
+      creature: [{
+        localField: 'creatures',
+        foreignKeys: 'starIds'
+      }, {
+        localField: 'knownCreatures',
+        localKeys: 'creatureIds'
+      }]
     }
   }
 })
@@ -40,6 +47,7 @@ schemator.defineSchema('Star', {
 })
 
 function create(star, cb) {
+  DS.find('galaxy', star.galaxyId).then(function(galaxy){ 
   function starColor(temperature) {
     if (temperature >= 25000) {
       color = 'blue';
@@ -78,6 +86,7 @@ function create(star, cb) {
   }
   // Use the Resource Model to create a new star
   Star.create(starObj).then(cb).catch(cb)
+  }).catch(cb)
 }
 
 function getAll(query, cb) {

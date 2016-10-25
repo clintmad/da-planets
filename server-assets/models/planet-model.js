@@ -24,7 +24,14 @@ let Planet = DS.defineResource({
             moon: {
                 localField: 'moons',
                 foreignKey: 'planetId'
-            }
+            },
+            creature: [{
+                localField: 'creatures',
+                foreignKeys: 'planetIds'
+            }, {
+                localField: 'knownCreatures',
+                localKeys: 'creatureIds'
+            }]
         }
     }
 })
@@ -42,10 +49,10 @@ schemator.defineSchema('Planet', {
         type: 'string',
         nullable: false
     },
-  galaxyId: {
-    type: 'string',
-    nullable: false
-  }
+    galaxyId: {
+        type: 'string',
+        nullable: false
+    }
 })
 
 function create(planet, cb) {
