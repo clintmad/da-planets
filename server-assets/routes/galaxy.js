@@ -24,9 +24,14 @@ router.route('/:id?')
       return res.send(galaxy)
     })
   })
-  .put(function (req, res, next) {
-    res.send('We are working on it....')
-  })
+  // .put(function (req, res, next) {
+  //   Galaxy.editGalaxy(req.params.id, req.body.galaxy, function (err, numReplaced){
+  //     if(err){
+  //       return res.send(err)
+  //     }
+  //     res.send({message: "Sucessfully updated " + numReplaced + " galaxy."})
+  //   })
+  // })
   .delete(function (req, res, next) {
     res.send('We are working on it....')
   })

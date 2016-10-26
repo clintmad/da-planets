@@ -25,10 +25,10 @@ let Star = DS.defineResource({
         foreignKey: 'starId'
       },
       creature: [{
-        localField: 'creatures',
+        localField: 'knownCreatures',
         foreignKeys: 'starIds'
       }, {
-        localField: 'knownCreatures',
+        localField: 'creatures',
         localKeys: 'creatureIds'
       }]
     }
@@ -91,7 +91,7 @@ function create(star, cb) {
 
 function getAll(query, cb) {
   //Use the Resource Model to get all Galaxies
-  Star.findAll({}).then(cb).catch(cb)
+  Star.findAll({}, formatQuery(query)).then(cb).catch(cb)
 }
 
 function getById(id, query, cb) {

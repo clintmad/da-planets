@@ -26,10 +26,10 @@ let Moon = DS.defineResource({
     },
     hasMany: {
       creature: [{
-        localField: 'creatures',
+        localField: 'knownCreatures',
         foreignKeys: 'moonIds'
       }, {
-        localField: 'knownCreatures',
+        localField: 'creatures',
         localKeys: 'creatureIds'
       }]
     }
@@ -78,7 +78,7 @@ function create(moon, cb) {
 }
 
 function getAll(query, cb) {
-  Moon.findAll({}).then(cb).catch(cb)
+  Moon.findAll({}, formatQuery(query)).then(cb).catch(cb)
 }
 
 function getById(id, query, cb) {

@@ -26,10 +26,10 @@ let Planet = DS.defineResource({
                 foreignKey: 'planetId'
             },
             creature: [{
-                localField: 'creatures',
+                localField: 'knownCreatures',
                 foreignKeys: 'planetIds'
             }, {
-                localField: 'knownCreatures',
+                localField: 'creatures',
                 localKeys: 'creatureIds'
             }]
         }
@@ -74,7 +74,7 @@ function create(planet, cb) {
 
 function getAll(query, cb) {
     //Use the Resource Model to get all Planets
-    Planet.findAll({}).then(cb).catch(cb)
+    Planet.findAll({}, formatQuery(query)).then(cb).catch(cb)
 }
 
 function getById(id, query, cb) {

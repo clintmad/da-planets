@@ -12,31 +12,31 @@ let Creature = DS.defineResource({
         hasMany: {
             galaxy: [{
                 localField: 'galaxies',
-                localKeys: 'creatureIds'
+                localKeys: 'galaxyIds'
             }, {
                 localField: 'knownGalaxies',
-                foreignKeys: 'galaxyIds'
+                foreignKeys: 'creatureIds'
             }],
             star: [{
                 localField: 'stars',
-                localKeys: 'creatureIds'
+                localKeys: 'starIds'
             }, {
                 localField: 'knownStars',
-                foreignKeys: 'starIds'
+                foreignKeys: 'creatureIds'
             }],
             planet: [{
                 localField: 'planets',
-                localKeys: 'creatureIds'
+                localKeys: 'planetIds'
             }, {
                 localField: 'knownPlanets',
-                foreignKeys: 'planetIds'
+                foreignKeys: 'creatureIds'
             }],
             moon: [{
                 localField: 'moons',
-                localKeys: 'creatureIds'
+                localKeys: 'moonIds'
             }, {
                 localField: 'knownMoons',
-                foreignKeys: 'moonIds'
+                foreignKeys: 'creatureIds'
             }]
         }
     }
@@ -71,7 +71,7 @@ function inhabitLocation(creatureId, type, id, cb) {
 }
 
 function getAll(query, cb) {
-    Creature.findAll({}).then(cb).catch(cb)
+    Creature.findAll({}, formatQuery(query)).then(cb).catch(cb)
 }
 
 function getById(id, query, cb) {

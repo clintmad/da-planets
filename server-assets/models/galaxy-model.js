@@ -2,7 +2,8 @@ let dataAdapter = require('./data-adapter'),
   uuid = dataAdapter.uuid,
   schemator = dataAdapter.schemator,
   DS = dataAdapter.DS,
-  formatQuery = dataAdapter.formatQuery;
+  formatQuery = dataAdapter.formatQuery,
+  db = dataAdapter.Galaxy;
 
 let Galaxy = DS.defineResource({
   name: 'galaxy',
@@ -23,10 +24,10 @@ let Galaxy = DS.defineResource({
         foreignKey: 'galaxyId'
       },
       creature: [{
-        localField: 'creatures',
+        localField: 'knownCreatures',
         foreignKeys: 'galaxyIds'
       }, {
-        localField: 'knownCreatures',
+        localField: 'creatures',
         localKeys: 'creatureIds'
       }]
     }
@@ -58,13 +59,21 @@ function create(name, cb) {
 
 function getAll(query, cb) {
   //Use the Resource Model to get all Galaxies
-  Galaxy.findAll({}).then(cb).catch(cb)
+  Galaxy.findAll({}, formatQuery(query)).then(cb).catch(cb)
 }
 
 function getById(id, query, cb) {
   // use the Resource Model to get a single galaxy by its id
   Galaxy.find(id, formatQuery(query)).then(cb).catch(cb)
 }
+
+// function editGalaxy(id, galaxy, cb){
+//   db.update({ _id: id}, {
+//     $set: {
+//       name: galaxy.name
+//     }
+//   }, {}, cb)
+// }
 
 module.exports = {
   create,
